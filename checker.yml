@@ -1,0 +1,35 @@
+name: Link Checker
+
+on:
+  workflow_dispatch:        # manual "Run workflow" button ke liye
+  schedule:
+    - cron: '0 0 * * *'     # roz raat 12 baje (UTC) apne aap chalega — chaho to hata sakte ho
+
+permissions:
+  contents: write
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Repo checkout karo
+        uses: actions/checkout@v4
+
+      - name: Python setup karo
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Dependencies install karo
+        run: pip install -r requirements.txt
+
+      - name: Checker chalao
+        run: python checker.py
+
+      - name: Result commit karo
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add result.txt
+          git commit -m "Result update kiya" || echo "Kuch naya nahi tha"
+          git push

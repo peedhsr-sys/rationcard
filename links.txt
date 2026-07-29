@@ -1,0 +1,3 @@
+https://yourwebsite.com/page1.php
+https://yourwebsite.com/page2.php
+https://yourwebsite.com/page3.php
